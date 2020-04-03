@@ -1,0 +1,22 @@
+[paths]
+data = /var/lib/grafana
+temp_data_lifetime = 24h
+logs = /var/log/grafana
+plugins = /var/lib/grafana/plugins
+provisioning = conf/provisioning
+ 
+[server]
+protocol = http
+http_addr = {{ http_addr }} 
+http_port = 3000
+root_url = %(protocol)s://%(domain)s:%(http_port)s/
+serve_from_sub_path = false
+router_logging = false
+static_root_path = public
+enable_gzip = true
+ 
+[users]
+allow_sign_up = true
+allow_org_create = true
+auto_assign_org = true
+default_theme = dark

@@ -1,0 +1,12 @@
+---
+- name: copy package node_exporter for tar.gz
+  copy: src={{ install_info.version }}.tar.gz dest={{ install_info.path }}
+
+- name: install package promethues
+  shell: "cd {{ install_info.path }} && tar xf {{ install_info.version }}.tar.gz && mv {{ install_info.path }}{{ install_info.version }} {{ install_info.path }}/node_exporter"
+
+- name: add node_exporter systemd
+  template: src=node_exporter.service.j2 dest=/usr/lib/systemd/system/node_exporter.service
+
+- name: node_exporter service start and enabled
+  service: name=node_exporter state=started enabled=yes

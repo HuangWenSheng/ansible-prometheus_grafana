@@ -1,0 +1,16 @@
+##########
+[prometheus]
+192.168.2.29 ansible_ssh_port=22 ansible_ssh_user=root ansible_ssh_pass="test@123" targets=192.168.2.29
+# targets 定义prometheus监听地址
+
+
+##########
+[grafana]
+192.168.2.29 ansible_ssh_port=22 ansible_ssh_user=root ansible_ssh_pass="test@123" http_addr=192.168.2.29
+# http_addr 定义grafana监听地址
+
+
+##########
+#[node_exporter]
+#192.168.2.29 ansible_ssh_port=22 ansible_ssh_user=root ansible_ssh_pass="test@123"
+

@@ -1,0 +1,13 @@
+[Unit]
+Description=node_exporter
+After=network-online.target remote-fs.target nss-lookup.target
+Wants=network-online.target
+ 
+[Service]
+Type=simple
+ExecStart={{ install_info.path }}/node_exporter/node_exporter
+ExecReload=/bin/kill -s HUP $MAINPID
+ExecStop=/bin/kill -s TERM $MAINPID
+ 
+[Install]
+WantedBy=multi-user.target

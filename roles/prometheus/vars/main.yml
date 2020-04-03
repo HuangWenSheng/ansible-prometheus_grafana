@@ -1,0 +1,4 @@
+install_info:
+  version: prometheus-2.17.1.linux-amd64
+  path: /usr/local/
+ 

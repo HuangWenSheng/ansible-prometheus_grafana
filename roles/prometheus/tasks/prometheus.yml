@@ -1,0 +1,19 @@
+---
+- name: copy package prometheus for tar.gz
+  copy: src={{ install_info.version }}.tar.gz dest={{ install_info.path }}
+
+- name: install package promethues
+  shell: "cd {{ install_info.path }} && tar xf {{ install_info.version }}.tar.gz && mv {{ install_info.path }}{{ install_info.version }} {{ install_info.path }}/prometheus"
+
+- name: create prometheus config file dir
+  file: name={{ install_info.path }}/prometheus/conf state=directory
+
+- name: config prometheus
+  template: src=prometheus.yml.j2 dest={{ install_info.path }}/prometheus/conf/prometheus.yml
+  notify: restart prometheus
+
+- name: add prometheus systemd
+  template: src=prometheus.service.j2 dest=/usr/lib/systemd/system/prometheus.service
+
+- name: prometheus service start and enabled
+  service: name=prometheus state=started enabled=yes

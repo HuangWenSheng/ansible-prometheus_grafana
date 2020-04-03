@@ -1,0 +1,10 @@
+[Unit]
+Description=prometheus-server
+After=network-online.target remote-fs.target nss-lookup.target
+Wants=network-online.target
+ 
+[Service]
+Type=simple
+ExecStart={{ install_info.path }}/prometheus/prometheus --config.file={{ install_info.path }}/prometheus/conf/prometheus.yml --web.enable-lifecycle --storage.tsdb.path={{ install_info.path }}/prometheus/data --storage.tsdb.retention.time=7d --web.max-connections=512 --web.read-timeout=3m --query.max-concurrency=25 --query.timeout=2m
+ExecReload=/bin/kill -s HUP $MAINPID
+ExecStop=/bin/kill -s TERM $MAINPID

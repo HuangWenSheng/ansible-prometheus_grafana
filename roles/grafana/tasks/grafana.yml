@@ -1,0 +1,25 @@
+---
+#- name: copy grafana depend packages
+#  copy: src=grafana_depend.tar.gz dest=/root/
+
+#- name: tar xf grafana depend packages
+#  unarchive: src=/root/grafana_depend.tar.gz dest=/root/
+
+#- name: install grafana depend packages
+#  shell: "cd /root/ && tar xf grafana_depend.tar.gz && cd grafana_depend && yum localinstall ./*.rpm -y"
+
+- name: copy package grafana for rpm
+  copy: src={{ install_info.version }}.rpm dest={{ install_info.path }}
+
+- name: install package grafana
+  yum: name={{ install_info.path }}{{ install_info.version}}.rpm state=installed
+
+- name: back grafana config
+  shell: "cp /etc/grafana/grafana.ini{,.bck}" 
+
+- name: config grafana
+  template: src=grafana.ini.j2 dest=/etc/grafana/grafana.ini
+  notify: restart grafana
+
+- name: grafana service start and enabled
+  service: name=grafana-server state=started enabled=yes
